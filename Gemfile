@@ -42,6 +42,19 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+#Errors better looking gem
+gem 'better_errors', '~> 2.9', '>= 2.9.1'
+
+#Bulma CSS for styling <We can use bootstap instead>
+gem 'bulma-rails', '~> 0.9.4'
+
+#For HTML forms!
+gem 'simple_form', '~> 5.2'
+
+
+
+
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
@@ -51,6 +64,12 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+
+  #handle events on file system modifications. This gem is only needed in the development environment, so we add it to the environment group!!
+  gem 'guard', '~> 2.18'
+
+  #Guard::LiveReload automatically reloads your browser when 'view' files are modified.
+  gem 'guard-livereload', '~> 2.5', '>= 2.5.2', require: false
 end
 
 group :development do
