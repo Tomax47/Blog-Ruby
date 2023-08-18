@@ -4,9 +4,28 @@
 ## General Notes
 
 1. When generating a controller, make sure to give it a plural name!
-2. When generating a model, give it a singular name!
-3. 
 
+
+2. When generating a model, give it a singular name!
+
+
+3. To view the routes of our webApp, we can sue either `rials routes ` or `rake routes`
+
+
+4. The post_params is a private method in the posts controller, which will allow us to pass parameters we need to use in other methods like in the create one!
+
+
+5. In the create method we create the new post passing the post's params, and then check the post has been saved so we direct the user to the post, else we will render a new post!   
+``` ruby
+def create
+   @post = Post.new(post_params)
+   if @post.save
+    redirect_to @post
+   else
+    render 'new'
+   end
+end
+```
 
 ####
 ## Gems used in the project :
@@ -84,3 +103,50 @@
 
 2. **Push the migration into the database** :   
 `rails db:migrate`
+
+
+3. **Create a <new.html.erb> file inside the post view, to be the view for creating a new post** 
+
+###
+#### 2. Creating The Form :
+
+* First, we need to call the simple_form gem to help up with creating the new post form "**Must be included inside a <%= code here %>**" :
+```erbruby
+ simple_form_for @post do |f| 
+```
+
+###
+* Then for the title field, we specify the param we want to input which is **:title** 
+
+
+* **input_html** is used to tell simple_for gem which type of field we want |**input is needed here**|
+
+
+* wrapper: false, is set to false so it ain't conflict with the bulma gem, because it has the same class!
+
+
+* html_label: {class: 'label'}, is for setting the label for the field!
+```html
+<div class="field">
+      <div class="control">
+        <%= f.input :title, input_html: {class: 'input'}, wrapper: false, label_html: {class: 'label'}  %>
+      </div>
+    </div>
+```
+
+###
+* We apply the same logic for the content, with changes to the param from :title to :content and the html_input: {class: 'text'}
+```html
+<div class="field">
+      <div class="control">
+        <%= f.input :content, input_html: {class: 'textarea'}, wrapper: false, label_html: {class: 'label'} %>
+      </div>
+    </div>
+```
+
+###
+* Last, the submit button "**Must be included inside a <%= code here %>**" : 
+```erbruby
+f.button :submit, 'Create New Post', class: "button is-primary" 
+```
+
