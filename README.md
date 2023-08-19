@@ -312,3 +312,26 @@ end
 *Same html used here as in the new html.erb page!
 
 
+###
+## Deleting Posts:
+
+1. To delete a post, we will need a destroy function in the post controller : 
+```erbruby
+def destroy 
+  @post = Post.find(params[:id])
+  
+  if @post.destroy
+    redirect_to root_path
+  else
+    render 'destroy', flash.now[:notice] = "Couldn't delete the post!"
+  end
+end
+```
+
+###
+2. In the show.html.erb page, to give the delete button a functionality, we will assign it with the method delete, and make the path, the actual post's path handing it the variable @post! 
+
+```erbruby
+<% button_to 'Delete',post_path(@post), method: :delete, data: {confirm: "Are You Sure You Want To Delete The Article?"}, class:"button is-danger" %>
+```
+

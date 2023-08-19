@@ -38,6 +38,17 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+
+    if @post.destroy
+      redirect_to root_path
+    else
+      flash.now[:notice] = "Couldn't delete the post!"
+    end
   end
 
 
