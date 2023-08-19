@@ -1,4 +1,4 @@
-<%content_for :page_title, "Create New Post" %>>
+<%content_for :page_title, "Edit : " + @post.title %>>
 
 <div class="section">
   <%= simple_form_for @post do |f| %>
@@ -18,5 +18,3 @@
 
   <%end %>
 </div>
-
-

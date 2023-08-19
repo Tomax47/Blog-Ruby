@@ -1,1 +1,43 @@
-<h1>Server Is Up</h1>
+<%content_for :page_title, "Welcome To PostPick!" %>
+
+<body>
+<section class="section">
+  <div class="container">
+    <% @posts.each do |post| %>
+
+      <div class="card">
+        <div class="card-content">
+
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4"><%= link_to post.title, post %></p>
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="content-teaser"><%= truncate post.content, length: 150 %></div>
+            <%= link_to 'Read More', post %>
+          </div>
+
+          <!--<div class="comment-count">
+              <span class="tag is-rounded"><%# comment count %></span>
+            </div>-->
+
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+</section>
+</body>
+
+
+<section>
+  <center>
+    <%= link_to 'New Post', new_post_path %>
+  </center>
+</section>
+
+
+
+

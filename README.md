@@ -107,6 +107,13 @@ end
 
 3. **Create a <new.html.erb> file inside the post view, to be the view for creating a new post** 
 
+
+4. **Insert title and content validation inside of the Post model** :
+```erbruby
+  validates :title, presence: true
+  validates :content, presence: true
+```
+
 ###
 #### 2. Creating The Form :
 
@@ -149,4 +156,159 @@ end
 ```erbruby
 f.button :submit, 'Create New Post', class: "button is-primary" 
 ```
+###
+
+#### 3. Show the post :
+* To display the post, we will need to define a show function inside of the post controller to find the post by its id :
+```erbruby
+@post = Post.find(params[:id])
+```
+
+
+* Create a show page inside the posts view.
+
+
+* Create the form of displaying the post data :
+
+```html
+<section class="section">
+    <container class="container">
+      <h1 class="title"><%= @post.title %></h1>
+      <div class="content">
+        <%= @post.content %>
+      </div>
+    </container>
+  </section>
+```
+###
+#### 4. Display the posts on the index page :
+
+1. **First, we will need to define the index function inside of the post controller  :**   
+
+
+**Note :** 
+   * The tag is in plural @posts and not @post, because we ant to display all of the posts!
+   * The order, is to display the posts based on the date of creation, in an DESC order.
+
+
+```erbruby
+@posts = Post.all.order("created_at DESC")
+```
+
+###
+2. **Secondly, we will create the index page's form :**
+
+* We define a for loop for all of the posts included :
+
+```erbruby
+ @posts.each do |post| 
+```
+###
+* Inside of it, we create the card in which each of the posts will be displayed : 
+
+```html
+<div class="card">
+          <div class="card-content">
+
+            <div class="media">
+              <div class="media-content">
+                <p class="title is-4"><%= link_to post.title, post %></p>
+              </div>
+            </div>
+
+            <div class="content">
+              <%= post.content %>
+            </div>
+
+            <div class="comment-count">
+              <span class="tag is-rounded"><%# comment count %></span>
+            </div>
+
+          </div>
+        </div>
+```
+
+###
+* Limiting the number of words to be displayed with the post on the index page :  
+  * We use the truncate and then specify the amount of words to be displayed!
+```html
+<div class="content-teaser"><%= truncate post.content, length: 150 %></div>
+```
+###
+#### 5. Making Application Layout :
+
+* Inside of the section, we added a hero-body, so it shows the name of the page the user is at, at the top
+
+```html
+<div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">
+          <%= yield  :page_title%>
+        </h1>
+      </div>
+    </div>
+```
+
+* Then we added the tag on each of the view pages for posts, so it renders them : 
+###
+1. On the index page to render "Welcome To PostPick" :
+```html
+<content_for :page_title, "Welcome To PostPick">
+```
+
+2. On the show page, to render the title of the article :
+```erbruby
+<content_for :page_title, @post.title>
+```
+
+3. On the newPost page, to render "Create new post" :
+```html
+<content_for :page_title, "Create New Post">
+```
+###
+* **NOTE :** We will have the add the content_for block on each of the posts view pages, so it ain't stumble on any errors!
+
+###
+## Updating Posts:
+
+* To update a post, we will need to define two functions in the post controller, an edit function and an update function!
+
+###
+### 1.  Edit Function :
+
+The edit function will be rendered by the update def in a specific case :
+```erbruby
+def edit
+    @post = Post.find(params[:id])
+end
+```
+###
+### 2. Update Function :
+
+* The core def for updating the post, it will first look for the post, and then pass the new post_params to the post and check if it's updated, so it redirect the user to the updated post, else, it will rendner the def edit which will again find the post by its id :
+
+```erbruby
+def update
+    @post = Post.find(params[:id])
+
+    if @post.update(post_params)
+      redirect_to @post
+    else
+      render 'edit'
+    end
+end
+```
+###
+### 3. Adding the update button to the show page of the posts' view :
+
+* Here, we added the actions navbar at the top of the article's content, note that in the edit button, we passed the @post variable in the edit_post_path :
+```erbruby
+<%link_to "Edit", edit_post_path(@post), class: "button"%>
+```
+
+
+###
+### 4. Creating the update html.erb page in the posts views.
+*Same html used here as in the new html.erb page!
+
 

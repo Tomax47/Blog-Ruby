@@ -11,6 +11,51 @@
   </head>
 
   <body>
-    <%= yield %>
+
+
+  <section class="hero is-info is-large">
+    <div class="hero-head">
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item">
+              <h1 class="logo" style="font-size: 3em; font-weight: bold">PostPick</h1>
+            </a>
+            <span class="navbar-burger" data-target="navbarMenuHeroB">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          </div>
+          <div id="navbarMenuHeroB" class="navbar-menu">
+            <div class="navbar-end">
+              <%= link_to 'Home', root_path , class:"navbar-item"%>>
+
+              <%= link_to 'Share', new_post_path, class:"navbar-item"%>>
+              <a class="navbar-item">
+                Sing-In
+              </a>
+              <span class="navbar-item">
+              <a class="button is-info is-inverted">
+                <span>Register</span>
+              </a>
+            </span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">
+          <%= yield  :page_title%>
+        </h1>
+      </div>
+    </div>
+
+  </section>
+
+  <%= yield %>
   </body>
 </html>
