@@ -335,3 +335,92 @@ end
 <% button_to 'Delete',post_path(@post), method: :delete, data: {confirm: "Are You Sure You Want To Delete The Article?"}, class:"button is-danger" %>
 ```
 
+###
+## Adding Comments :
+
+1. Create a comment model :    
+`rails g model comment name:string comment:text`
+
+
+2. Pushing the model to the database .
+
+
+3. Create and push a migration to add a user_id for the comments :   
+`rails g migration add_user_id_to_comments`
+
+ * Modify the def in the migration to add_column of a user_id to the comments database.
+###
+
+4. In the comments controller, we need to define a create and a destroy methods :
+
+```erbruby
+def create
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.create(comment_params)
+    if @comment.save
+      redirect_to @post
+    else
+      flash.now[:notice] = "Couldn't add a comment!"
+    end
+
+  end
+```
+
+```erbruby
+def destroy
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.find(params[:id])
+
+    if @comment.destroy
+      redirect_to @post
+      flash.now[:notice] = "Comment has been deleted!"
+    else
+      flash.now[:notice] = "Couldn't delete the comment!"
+    end
+  end
+```
+###
+5. Add the Active Record Associations to both the comment and the post models.
+ 
+###
+6. Add the resources of the comments to the routes.rb inside of the resources :posts :
+```erbruby
+resources :posts do
+    resources :comments
+  end
+```
+
+###
+7. Create a from for creating a comment <_form.html.erb> :
+
+* We utilize the simple_form gem, here we telling it that for the @post, build a comment associated with it!
+```erbruby
+<% simple_form_for([@post, @post.comments.build]) do |f| %>
+```
+
+###
+8. Create a view, to show the model <_comment.html.erb> make sure the the name is singular :
+Inside of it, for the delete button -> 
+```erbruby
+<% button_to 'Delete', [comment.post, comment], method: :delete, class:"button is-danger" %>
+```
+
+###
+9. Add the comments section to the show.html.erb file in the posts view : 
+
+```html
+<div class="container">
+    <!-- NUMBER OF COMMENTS-->
+    <h2 class="subtitle is-5"><strong><%= @post.comments.count %></strong> Comments</h2>
+    <!-- THIS WILL RENDER THE COMMENTS -->
+    <%= render @post.comments %>
+
+    <!-- A FORM FOR THE USER TO LEAVE A COMMENT -->
+    <div class="comment-form">
+      <hr />
+      <center><h3 class="subtitle is-3">Leave A Reply</h3></center>
+      <%= render 'comments/form' %>
+    </div>
+  </div>
+```
+

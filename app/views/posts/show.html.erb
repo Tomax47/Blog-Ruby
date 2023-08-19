@@ -1,3 +1,4 @@
+<div class="notice"><%= notice %></div>
 <%content_for :page_title, @post.title  %>
 
 <section class="section">
@@ -44,6 +45,22 @@
 </center>
 
 <br/>
-<center>
-  <section class="tag is-primary is-medium">Comments</section>
-</center>
+<!-- COMMENTS SECTION -->
+
+<section class="section comments">
+  <div class="container">
+    <!-- NUMBER OF COMMENTS-->
+    <h2 class="subtitle is-5"><strong><%= @post.comments.count %></strong> Comments</h2>
+    <!-- THIS WILL RENDER THE COMMENTS -->
+    <%= render @post.comments %>
+
+    <!-- A FORM FOR THE USER TO LEAVE A COMMENT -->
+    <div class="comment-form">
+      <hr />
+      <center><h3 class="subtitle is-3">Leave A Reply</h3></center>
+      <%= render 'comments/form' %>
+    </div>
+  </div>
+</section>
+
+
